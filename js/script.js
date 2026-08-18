@@ -196,36 +196,10 @@
     els.forEach(el => observer.observe(el));
   })();
 
-  /* ---------------- Stat counters ---------------- */
-  (function counters() {
-    const nums = document.querySelectorAll('.stat-num');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        const el = entry.target;
-        const target = parseFloat(el.dataset.count);
-        const suffix = el.dataset.suffix || '';
-        const isDecimal = String(target).includes('.');
-        const duration = reduceMotion ? 0 : 1400;
-        const start = performance.now();
-        function tick(now) {
-          const p = duration === 0 ? 1 : Math.min(1, (now - start) / duration);
-          const eased = 1 - Math.pow(1 - p, 3);
-          const val = target * eased;
-          el.textContent = (isDecimal ? val.toFixed(1) : Math.round(val).toLocaleString()) + suffix;
-          if (p < 1) requestAnimationFrame(tick); else el.textContent = (isDecimal ? target.toFixed(1) : target.toLocaleString()) + suffix;
-        }
-        requestAnimationFrame(tick);
-        observer.unobserve(el);
-      });
-    }, { threshold: 0.6 });
-    nums.forEach(el => observer.observe(el));
-  })();
-
   /* ---------------- Hero role-cycling text ---------------- */
   (function heroCycle() {
     const el = document.getElementById('hero-cycle');
-    const roles = ['intelligent systems', 'full-stack products', 'real-time ML pipelines'];
+    const roles = ['AI systems', 'machine learning models', 'computer vision pipelines'];
     if (reduceMotion) { el.textContent = roles[0]; return; }
     let roleIdx = 0, charIdx = 0, deleting = false;
 

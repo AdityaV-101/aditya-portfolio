@@ -366,18 +366,52 @@ img { max-width: 100%; display: block; }
 }
 .hero-cta { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 70px; }
 
-.hero-stats { display: flex; gap: 56px; flex-wrap: wrap; }
-.stat { display: flex; flex-direction: column; gap: 6px; }
-.stat-num {
-  font-family: var(--font-mono);
-  font-size: clamp(1.6rem, 3vw, 2.1rem);
-  font-weight: 600;
-  background: var(--gradient);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+.hero-interests { display: flex; gap: 18px; flex-wrap: wrap; }
+.interest-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 22px;
+  min-width: 200px;
 }
-.stat-label { font-size: 0.82rem; color: var(--text-dimmer); max-width: 160px; }
+.interest-icon { width: 34px; height: 34px; flex-shrink: 0; overflow: visible; }
+.interest-label {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--text-dim);
+}
+
+/* Chess: rock/tilt on hover */
+.interest-icon-piece { transform-origin: 24px 40px; transition: transform 0.35s var(--ease); }
+.interest-chess:hover .interest-icon-piece { animation: chess-rock 0.6s ease-in-out; }
+@keyframes chess-rock {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-7deg); }
+  75% { transform: rotate(7deg); }
+}
+
+/* Poker: flip / shine sweep on hover */
+.interest-poker .interest-icon { transition: transform 0.5s var(--ease); }
+.interest-poker:hover .interest-icon { transform: rotateY(180deg); }
+.interest-icon-shine { transition: opacity 0.3s ease; opacity: 0.6; }
+.interest-poker:hover .interest-icon-shine { animation: poker-shine 0.8s ease; }
+@keyframes poker-shine {
+  0% { opacity: 0.2; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+/* Circuit: pulse / glow along lines on hover */
+.interest-icon-circuit path, .interest-icon-circuit rect {
+  transition: filter 0.3s ease;
+}
+.interest-circuit:hover .interest-icon-circuit {
+  animation: circuit-pulse 1.4s ease-in-out infinite;
+}
+@keyframes circuit-pulse {
+  0%, 100% { filter: drop-shadow(0 0 0px rgba(79,209,255,0)); }
+  50% { filter: drop-shadow(0 0 6px rgba(79,209,255,0.85)); }
+}
 
 .scroll-cue {
   position: absolute;
@@ -492,16 +526,7 @@ img { max-width: 100%; display: block; }
   color: var(--text-dimmer);
 }
 .timeline-content h3 { font-size: 1.25rem; margin: 8px 0 12px; }
-.timeline-content p { color: var(--text-dim); font-size: 0.92rem; margin-bottom: 16px; }
-.timeline-stat {
-  font-family: var(--font-mono);
-  font-size: 0.85rem;
-  color: var(--green);
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-}
-.timeline-stat .stat-num { font-size: 1.1rem; background: none; -webkit-text-fill-color: initial; color: var(--green); }
+.timeline-content p { color: var(--text-dim); font-size: 0.92rem; margin-bottom: 20px; }
 
 /* ---------- Projects ---------- */
 .projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
@@ -622,7 +647,8 @@ img { max-width: 100%; display: block; }
   .nav-links, .nav-cta { display: none; }
   .hamburger { display: flex; }
   .section { padding: 90px 0; }
-  .hero-stats { gap: 32px; }
+  .hero-interests { gap: 12px; }
+  .interest-card { min-width: 0; flex: 1 1 140px; }
   .skills-grid { grid-template-columns: 1fr; }
   .achievements { grid-template-columns: 1fr; }
   .timeline-item { padding: 24px 18px; gap: 16px; }
