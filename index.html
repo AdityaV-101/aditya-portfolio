@@ -347,6 +347,24 @@
             <li>PyTorch</li><li>FinBERT</li><li>Transformer / LSTM</li><li>Streamlit</li>
           </ul>
         </article>
+
+        <article class="project-card tilt-card reveal">
+          <div class="project-card-glow"></div>
+          <span class="project-tag">LangGraph / RAG</span>
+          <h3>Autonomous Trading Agent</h3>
+          <p class="project-sub">Auditable BUY / SELL / HOLD Decision-Support Pipeline</p>
+          <p>
+            LangGraph-orchestrated agent that, for a single ticker, pulls recent news and the latest
+            SEC filing, scores sentiment with a local FinBERT pass, retrieves the most relevant
+            passages through a RAG pipeline, and prompts an LLM to reason over all of it into a
+            structured decision with a confidence score and evidence citations for every claim.
+            Every run persists to JSON + SQLite for auditability, with local embeddings keeping every
+            stage but the final reasoning call free of API cost.
+          </p>
+          <ul class="project-stack">
+            <li>LangGraph</li><li>OpenAI API</li><li>FinBERT</li><li>RAG</li>
+          </ul>
+        </article>
       </div>
     </div>
   </section>
