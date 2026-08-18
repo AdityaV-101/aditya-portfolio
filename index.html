@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Aditya V Sodagudi — AI &amp; Full-Stack Engineer</title>
+<meta name="description" content="Aditya V Sodagudi — MS Computer Science (AI Track) candidate at Binghamton University. Builds intelligent systems and full-stack products: real-time gesture recognition, CNN classifiers, and production webhook platforms." />
+<meta name="theme-color" content="#05070d" />
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%2305070d%22/><text x=%2250%22 y=%2266%22 font-size=%2248%22 font-family=%22monospace%22 font-weight=%22700%22 fill=%22%234fd1ff%22 text-anchor=%22middle%22>AS</text></svg>" />
+
+<meta property="og:title" content="Aditya V Sodagudi — AI & Full-Stack Engineer" />
+<meta property="og:description" content="Builds intelligent systems and full-stack products — from real-time gesture recognition to production webhook platforms." />
+<meta property="og:type" content="website" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- Loading screen -->
+<div id="loader" aria-hidden="true">
+  <canvas id="loader-grid"></canvas>
+  <div class="loader-content">
+    <svg class="loader-logo" viewBox="0 0 160 160" width="140" height="140">
+      <circle class="ring ring-outer" cx="80" cy="80" r="70" fill="none" stroke="url(#ringGrad1)" stroke-width="2" />
+      <circle class="ring ring-inner" cx="80" cy="80" r="52" fill="none" stroke="url(#ringGrad2)" stroke-width="2" />
+      <text x="80" y="94" text-anchor="middle" class="loader-monogram">AS</text>
+      <defs>
+        <linearGradient id="ringGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#4fd1ff" />
+          <stop offset="100%" stop-color="#8b5cf6" />
+        </linearGradient>
+        <linearGradient id="ringGrad2" x1="100%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#8b5cf6" />
+          <stop offset="100%" stop-color="#4fd1ff" />
+        </linearGradient>
+      </defs>
+    </svg>
+    <p class="loader-status"><span id="loader-status-text">Initializing system</span><span class="dots" aria-hidden="true">...</span></p>
+    <div class="loader-bar-track">
+      <div class="loader-bar-fill" id="loader-bar-fill"></div>
+    </div>
+    <span class="loader-percent" id="loader-percent">0%</span>
+  </div>
+</div>
+
+<!-- Ambient background -->
+<canvas id="bg-canvas" aria-hidden="true"></canvas>
+
+<!-- Custom cursor -->
+<div class="cursor-dot" id="cursor-dot"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+
+<!-- Scroll progress -->
+<div class="scroll-progress" id="scroll-progress"></div>
+
+<!-- Toast -->
+<div class="toast" id="toast">Email copied to clipboard</div>
+
+<!-- Nav -->
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#hero" class="nav-logo magnetic">AS<span class="nav-logo-dot">.</span></a>
+    <nav class="nav-links" id="nav-links">
+      <a href="#about" class="nav-link magnetic" data-section="about">About</a>
+      <a href="#skills" class="nav-link magnetic" data-section="skills">Skills</a>
+      <a href="#research" class="nav-link magnetic" data-section="research">Research</a>
+      <a href="#projects" class="nav-link magnetic" data-section="projects">Projects</a>
+      <a href="#education" class="nav-link magnetic" data-section="education">Education</a>
+      <a href="#contact" class="nav-link magnetic" data-section="contact">Contact</a>
+    </nav>
+    <a href="#contact" class="btn btn-small magnetic nav-cta">Let's talk</a>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="#about" class="mobile-link">About</a>
+    <a href="#skills" class="mobile-link">Skills</a>
+    <a href="#research" class="mobile-link">Research</a>
+    <a href="#projects" class="mobile-link">Projects</a>
+    <a href="#education" class="mobile-link">Education</a>
+    <a href="#contact" class="mobile-link">Contact</a>
+  </div>
+</header>
+
+<main>
+  <!-- Hero -->
+  <section id="hero" class="hero">
+    <div class="container hero-inner">
+      <p class="eyebrow reveal">MS CS · AI Track · Binghamton University</p>
+      <h1 class="hero-title reveal">
+        Aditya V Sodagudi builds
+        <span class="gradient-text hero-cycle-wrap"><span id="hero-cycle"></span><span class="cursor-blink">|</span></span>
+      </h1>
+      <p class="hero-sub reveal">
+        MS Computer Science candidate (AI Track) at Binghamton University. From real-time gesture
+        recognition to production webhook platforms — I turn research-grade ML ideas into systems
+        people can actually use.
+      </p>
+      <div class="hero-cta reveal">
+        <a href="#projects" class="btn btn-primary magnetic">View Projects</a>
+        <a href="#contact" class="btn btn-ghost magnetic">Get in Touch</a>
+      </div>
+      <div class="hero-stats reveal">
+        <div class="stat">
+          <span class="stat-num" data-count="96.9" data-suffix="%">0%</span>
+          <span class="stat-label">Gesture recognition accuracy</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num" data-count="25200" data-suffix="+">0+</span>
+          <span class="stat-label">Gesture samples collected</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num" data-count="90" data-suffix="%">0%</span>
+          <span class="stat-label">Blood-group CNN accuracy</span>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-cue" aria-hidden="true"><span></span></div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="section">
+    <div class="container">
+      <p class="section-label reveal">01 · About</p>
+      <h2 class="section-title reveal">Grad student. Systems builder. Chess player.</h2>
+      <div class="about-grid">
+        <div class="about-text reveal">
+          <p>
+            I'm a Computer Science graduate student at Binghamton University (SUNY), concentrating
+            in the AI Track, and hold a B.Tech in Computer Science &amp; Engineering with an AI &amp; ML
+            specialization from SRM University, Andhra Pradesh.
+          </p>
+          <p>
+            I like turning research-grade ML ideas into usable systems — real-time computer vision,
+            CNN-based classifiers, and full-stack platforms that hold up against real-world constraints:
+            rate limits, idempotency, webhook security. When I'm not building, I'm probably at a chessboard,
+            a hackathon, or mentoring students through an NGO.
+          </p>
+          <ul class="about-tags">
+            <li>Competitive chess player</li>
+            <li>Hackathon regular — OpenAI, BITS Goa, BITS Hyderabad</li>
+            <li>NGO volunteer &amp; mentor</li>
+          </ul>
+        </div>
+        <div class="about-card tilt-card reveal">
+          <div class="about-card-glow"></div>
+          <div class="about-card-row"><span>Location</span><strong>Binghamton, NY</strong></div>
+          <div class="about-card-row"><span>Focus</span><strong>AI Track — Applied ML</strong></div>
+          <div class="about-card-row"><span>Degree</span><strong>M.S. Computer Science</strong></div>
+          <div class="about-card-row"><span>GPA</span><strong>3.74 / 4.0</strong></div>
+          <div class="about-card-row"><span>Grad</span><strong>Expected May 2027</strong></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills -->
+  <section id="skills" class="section">
+    <div class="container">
+      <p class="section-label reveal">02 · Skills</p>
+      <h2 class="section-title reveal">Tools I reach for</h2>
+      <div class="skills-grid">
+        <div class="skill-card tilt-card reveal">
+          <h3>Languages</h3>
+          <p>Python, Java, SQL, JavaScript</p>
+        </div>
+        <div class="skill-card tilt-card reveal">
+          <h3>AI &amp; ML</h3>
+          <p>Deep Learning, CNNs (AlexNet, ResNet), NLP, Soft Computing, Model Training &amp; Evaluation</p>
+        </div>
+        <div class="skill-card tilt-card reveal">
+          <h3>AI Tools &amp; Libraries</h3>
+          <p>PyTorch, TensorFlow, Scikit-learn, OpenAI APIs</p>
+        </div>
+        <div class="skill-card tilt-card reveal">
+          <h3>Frameworks &amp; Backend</h3>
+          <p>React.js, Node.js, Express.js, Django, Flask</p>
+        </div>
+        <div class="skill-card tilt-card reveal">
+          <h3>Databases</h3>
+          <p>MongoDB, SQL, SQLite</p>
+        </div>
+        <div class="skill-card tilt-card reveal">
+          <h3>Data &amp; Visualization</h3>
+          <p>NumPy, Pandas, Matplotlib, Seaborn, Plotly</p>
+        </div>
+        <div class="skill-card tilt-card reveal">
+          <h3>DevOps &amp; Tools</h3>
+          <p>Git, Docker, Linux, GitHub Actions, HMAC/Webhook Signature Verification</p>
+        </div>
+        <div class="skill-card tilt-card reveal">
+          <h3>Full-Stack</h3>
+          <p>MERN Stack, REST APIs, Auth, CRUD, Multithreading</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Research -->
+  <section id="research" class="section">
+    <div class="container">
+      <p class="section-label reveal">03 · Research</p>
+      <h2 class="section-title reveal">Research experience</h2>
+      <p class="section-intro reveal">Supervised by Dr. Satish Anamalamudi, SRM University AP.</p>
+
+      <div class="timeline">
+        <div class="timeline-item tilt-card reveal">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <span class="timeline-date">2026</span>
+            <h3>Bidirectional Sign Language Detection</h3>
+            <p>
+              Real-time bidirectional sign language translation system using MediaPipe and PyTorch.
+              Built a custom dataset of 25,200 hand-gesture samples across 36 classes, and trained an
+              MLP-based gesture recognition model.
+            </p>
+            <div class="timeline-stat"><span class="stat-num" data-count="96.9" data-suffix="%">0%</span> accuracy</div>
+          </div>
+        </div>
+        <div class="timeline-item tilt-card reveal">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <span class="timeline-date">Aug 2025 – Nov 2025</span>
+            <h3>Fingerprint-Based Blood Group Classification</h3>
+            <p>
+              CNN-based system (AlexNet, ResNet-18) predicting ABO/Rh blood groups from 4,500+
+              fingerprint images. Handled data preprocessing, training, and evaluation via confusion
+              matrices across multiple train/test splits, and applied Grad-CAM for interpretability.
+            </p>
+            <div class="timeline-stat"><span class="stat-num" data-count="90" data-suffix="%">0%</span> accuracy</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects" class="section">
+    <div class="container">
+      <p class="section-label reveal">04 · Projects</p>
+      <h2 class="section-title reveal">Things I've built</h2>
+
+      <div class="projects-grid">
+        <article class="project-card tilt-card reveal">
+          <div class="project-card-glow"></div>
+          <span class="project-tag">OpenAI Hackathon Qualified</span>
+          <h3>GroSave</h3>
+          <p class="project-sub">AI-Powered Near-Expiry Food Redistribution Platform</p>
+          <p>
+            Redistributes near-expiry groceries via dynamic pricing and a micro-currency system
+            (GroCoin). Handles user verification, monthly credit allocation, item reservation, and
+            pickup scheduling. Integrates OpenAI APIs for multilingual and voice access, with
+            rule-based decision systems to balance inventory, prevent abuse, and maximize safe food
+            rescue.
+          </p>
+          <ul class="project-stack">
+            <li>OpenAI APIs</li><li>Rule-Based Systems</li><li>Full-Stack</li>
+          </ul>
+        </article>
+
+        <article class="project-card tilt-card reveal">
+          <div class="project-card-glow"></div>
+          <span class="project-tag">Python / Flask</span>
+          <h3>LinkPlease</h3>
+          <p class="project-sub">Comment-to-DM Automation Platform</p>
+          <p>
+            Flask webhook service automating Instagram comment-to-DM replies. SQLite unique
+            constraints guarantee exactly-once delivery per user/rule pair, backed by a multi-threaded
+            architecture (processor, sender, poller) with rate-limit handling, exponential-backoff
+            retries, and per-attempt idempotency keys — safely processing 500-event bursts. Secured
+            with HMAC-SHA256 webhook signature verification, with live accuracy stats exposed via a
+            REST API.
+          </p>
+          <ul class="project-stack">
+            <li>Flask</li><li>SQLite</li><li>HMAC-SHA256</li><li>Multithreading</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Education & Achievements -->
+  <section id="education" class="section">
+    <div class="container">
+      <p class="section-label reveal">05 · Education &amp; Achievements</p>
+      <h2 class="section-title reveal">Education &amp; achievements</h2>
+
+      <div class="edu-grid">
+        <div class="edu-card tilt-card reveal">
+          <h3>Binghamton University, SUNY</h3>
+          <p class="edu-degree">M.S. Computer Science — Concentration in AI Track</p>
+          <div class="edu-meta">
+            <span>Expected May 2027</span>
+            <span>GPA 3.74 / 4.0</span>
+          </div>
+        </div>
+        <div class="edu-card tilt-card reveal">
+          <h3>SRM University, Andhra Pradesh</h3>
+          <p class="edu-degree">B.Tech Computer Science &amp; Engineering — AI &amp; ML Specialization</p>
+          <div class="edu-meta">
+            <span>Graduated August 2026</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="achievements">
+        <div class="achievement-card tilt-card reveal">
+          <span class="achievement-icon">🏆</span>
+          <p>Winner, Inter-School Quiz Competition (top 20 schools citywide)</p>
+        </div>
+        <div class="achievement-card tilt-card reveal">
+          <span class="achievement-icon">✦</span>
+          <p>Qualified for the OpenAI Hackathon through project-based selection</p>
+        </div>
+        <div class="achievement-card tilt-card reveal">
+          <span class="achievement-icon">⚡</span>
+          <p>Competed in 2 national-level hackathons — BITS Goa &amp; BITS Hyderabad</p>
+        </div>
+        <div class="achievement-card tilt-card reveal">
+          <span class="achievement-icon">♞</span>
+          <p>Runner-up, University Annual Chess Tournament; represented school in chess for 4 consecutive years</p>
+        </div>
+        <div class="achievement-card tilt-card reveal">
+          <span class="achievement-icon">🤝</span>
+          <p>Volunteer, "We Are With You" NGO — mentored underprivileged students, contributed to an educational booklet</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="section">
+    <div class="container">
+      <p class="section-label reveal">06 · Contact</p>
+      <h2 class="section-title reveal">Let's build something</h2>
+      <p class="section-intro reveal">Open to opportunities in AI/ML engineering and full-stack development.</p>
+
+      <div class="contact-grid">
+        <button class="contact-card tilt-card reveal" id="email-card" type="button">
+          <span class="contact-icon">✉</span>
+          <span class="contact-label">Email</span>
+          <span class="contact-value">asodagudi@binghamton.edu</span>
+          <span class="contact-hint">Click to copy</span>
+        </button>
+        <a class="contact-card tilt-card reveal" href="https://linkedin.com/in/aditya-sodagudi" target="_blank" rel="noopener noreferrer">
+          <span class="contact-icon">in</span>
+          <span class="contact-label">LinkedIn</span>
+          <span class="contact-value">/in/aditya-sodagudi</span>
+          <span class="contact-hint">Opens in new tab</span>
+        </a>
+        <a class="contact-card tilt-card reveal" href="https://github.com/AdityaV-101" target="_blank" rel="noopener noreferrer">
+          <span class="contact-icon">⌘</span>
+          <span class="contact-label">GitHub</span>
+          <span class="contact-value">AdityaV-101</span>
+          <span class="contact-hint">Opens in new tab</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <p>© <span id="year"></span> Aditya V Sodagudi. Built from scratch, deployed on Vercel.</p>
+    <button class="back-to-top magnetic" id="back-to-top" aria-label="Back to top">↑</button>
+  </div>
+</footer>
+
+<script src="js/script.js"></script>
+</body>
+</html>
