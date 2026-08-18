@@ -366,20 +366,16 @@ img { max-width: 100%; display: block; }
 }
 .hero-cta { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 70px; }
 
-.hero-interests { display: flex; gap: 18px; flex-wrap: wrap; }
+.hero-interests { display: flex; gap: 16px; flex-wrap: wrap; }
 .interest-card {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 16px 22px;
-  min-width: 200px;
+  justify-content: center;
+  width: 76px;
+  height: 76px;
+  padding: 0;
 }
-.interest-icon { width: 34px; height: 34px; flex-shrink: 0; overflow: visible; }
-.interest-label {
-  font-family: var(--font-mono);
-  font-size: 0.82rem;
-  color: var(--text-dim);
-}
+.interest-icon { width: 40px; height: 40px; flex-shrink: 0; overflow: visible; }
 
 /* Chess: rock/tilt on hover */
 .interest-icon-piece { transform-origin: 24px 40px; transition: transform 0.35s var(--ease); }
@@ -648,7 +644,7 @@ img { max-width: 100%; display: block; }
   .hamburger { display: flex; }
   .section { padding: 90px 0; }
   .hero-interests { gap: 12px; }
-  .interest-card { min-width: 0; flex: 1 1 140px; }
+  .interest-card { width: 64px; height: 64px; }
   .skills-grid { grid-template-columns: 1fr; }
   .achievements { grid-template-columns: 1fr; }
   .timeline-item { padding: 24px 18px; gap: 16px; }
