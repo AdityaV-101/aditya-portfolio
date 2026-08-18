@@ -328,6 +328,25 @@
             <li>Flask</li><li>SQLite</li><li>HMAC-SHA256</li><li>Multithreading</li>
           </ul>
         </article>
+
+        <article class="project-card tilt-card reveal">
+          <div class="project-card-glow"></div>
+          <span class="project-tag">Research Pipeline</span>
+          <h3>AI Hedge Fund Simulator</h3>
+          <p class="project-sub">Leakage-Free Trading Research Pipeline</p>
+          <p>
+            End-to-end pipeline that pulls real OHLCV price data and news headlines, scores sentiment
+            with FinBERT, and forecasts next-day price direction with a Transformer (plus an LSTM
+            baseline). Backtests a long/flat strategy against buy-and-hold with realistic transaction
+            costs and slippage, using a strict chronological train/val/test split to avoid lookahead
+            bias. Results are surfaced through a Streamlit dashboard, with an honest accounting showing
+            neither model beat buy-and-hold — treated as a demonstration of a correct research pipeline
+            rather than a claim of trading edge.
+          </p>
+          <ul class="project-stack">
+            <li>PyTorch</li><li>FinBERT</li><li>Transformer / LSTM</li><li>Streamlit</li>
+          </ul>
+        </article>
       </div>
     </div>
   </section>
