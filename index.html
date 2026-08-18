@@ -365,6 +365,25 @@
             <li>LangGraph</li><li>OpenAI API</li><li>FinBERT</li><li>RAG</li>
           </ul>
         </article>
+
+        <article class="project-card tilt-card reveal">
+          <div class="project-card-glow"></div>
+          <span class="project-tag">LangGraph / RAG</span>
+          <h3>CodeSentinel</h3>
+          <p class="project-sub">Multi-Agent, RAG-Grounded Code Review Agent</p>
+          <p>
+            Reviews GitHub PRs and local git diffs the way a senior engineer would: a RAG index
+            over the whole repository gives every reviewer grounded context beyond the raw diff,
+            while independent LangGraph-orchestrated agents for correctness, security, and
+            convention review, plus ruff/bandit static analysis, run concurrently and fan in to a
+            deterministic synthesizer that dedupes and ranks findings into one cited report.
+            Read-only by default — inline PR comments are only posted when explicitly requested
+            with <code>--post</code> — with every run logged for auditability.
+          </p>
+          <ul class="project-stack">
+            <li>LangGraph</li><li>RAG / Chroma</li><li>tree-sitter</li><li>ruff / bandit</li>
+          </ul>
+        </article>
       </div>
     </div>
   </section>
