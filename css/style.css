@@ -378,7 +378,7 @@ img { max-width: 100%; display: block; }
 .interest-icon { width: 40px; height: 40px; flex-shrink: 0; overflow: visible; }
 
 /* Chess: rock/tilt on hover */
-.interest-icon-piece { transform-origin: 24px 40px; transition: transform 0.35s var(--ease); }
+.interest-icon-piece { transform-origin: 24px 44px; transition: transform 0.35s var(--ease); }
 .interest-chess:hover .interest-icon-piece { animation: chess-rock 0.6s ease-in-out; }
 @keyframes chess-rock {
   0%, 100% { transform: rotate(0deg); }
