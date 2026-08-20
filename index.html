@@ -296,6 +296,25 @@
       <div class="projects-grid">
         <article class="project-card tilt-card reveal">
           <div class="project-card-glow"></div>
+          <span class="project-tag">Local / Ollama</span>
+          <h3>DataMind</h3>
+          <p class="project-sub">Autonomous Multi-Agent AI Data Analyst</p>
+          <p>
+            Loads a dataset, plans an analysis, and writes pandas/plotly code to carry it out —
+            entirely offline on a local Ollama model, no API keys or cloud cost. A
+            Planner &rarr; Coder &rarr; Executor &rarr; Critic &rarr; Reporter pipeline runs every
+            generated code block in a sandboxed subprocess (AST import whitelist, no network,
+            timeout, memory cap), self-corrects on failure by feeding the traceback back to the
+            Coder, and writes up a self-contained HTML/PDF report with embedded charts. A
+            Streamlit UI surfaces every agent's reasoning step live for full auditability.
+          </p>
+          <ul class="project-stack">
+            <li>Ollama</li><li>pandas / Plotly</li><li>Streamlit</li><li>Sandboxed Execution</li>
+          </ul>
+        </article>
+
+        <article class="project-card tilt-card reveal">
+          <div class="project-card-glow"></div>
           <span class="project-tag">OpenAI Hackathon Qualified</span>
           <h3>GroSave</h3>
           <p class="project-sub">AI-Powered Near-Expiry Food Redistribution Platform</p>
