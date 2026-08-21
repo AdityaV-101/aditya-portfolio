@@ -25,36 +25,70 @@
 <div id="loader" aria-hidden="true">
   <canvas id="loader-grid"></canvas>
   <div class="loader-content">
-    <svg class="loader-logo" viewBox="0 0 160 160" width="140" height="140">
-      <circle class="ring ring-outer" cx="80" cy="80" r="70" fill="none" stroke="url(#ringGrad1)" stroke-width="2" />
-      <circle class="ring ring-inner" cx="80" cy="80" r="52" fill="none" stroke="url(#ringGrad2)" stroke-width="2" />
+    <svg class="loader-logo" viewBox="0 0 200 190" width="168" height="160">
+      <!-- ambient glow -->
+      <circle class="loader-glow" cx="100" cy="96" r="66" fill="url(#glowGrad)" filter="url(#softBlur)" />
 
       <!-- Hacker laptop opening animation -->
       <g class="loader-laptop">
-        <!-- base / keyboard deck -->
-        <path class="lid-base" d="M46 108 L114 108 L122 118 L38 118 Z" fill="url(#ringGrad2)" opacity="0.9" />
-        <rect class="lid-base-edge" x="38" y="118" width="84" height="3" rx="1.5" fill="url(#ringGrad1)" opacity="0.6" />
+        <!-- base / keyboard deck, angled perspective -->
+        <path class="lid-base" d="M38 132 L162 132 L146 153 L54 153 Z" fill="url(#deckGrad)" />
+        <path class="lid-base-edge" d="M54 153 L146 153 L143 157 L57 157 Z" fill="url(#edgeGrad)" opacity="0.75" />
+        <g class="key-grid">
+          <rect x="52" y="137" width="4" height="4" rx="1" /><rect x="60" y="137" width="4" height="4" rx="1" /><rect x="68" y="137" width="4" height="4" rx="1" /><rect x="76" y="137" width="4" height="4" rx="1" /><rect x="84" y="137" width="4" height="4" rx="1" /><rect x="92" y="137" width="4" height="4" rx="1" /><rect x="100" y="137" width="4" height="4" rx="1" /><rect x="108" y="137" width="4" height="4" rx="1" /><rect x="116" y="137" width="4" height="4" rx="1" /><rect x="124" y="137" width="4" height="4" rx="1" /><rect x="132" y="137" width="4" height="4" rx="1" /><rect x="140" y="137" width="4" height="4" rx="1" />
+          <rect x="55" y="144" width="4" height="4" rx="1" /><rect x="63" y="144" width="4" height="4" rx="1" /><rect x="71" y="144" width="4" height="4" rx="1" /><rect x="79" y="144" width="4" height="4" rx="1" /><rect x="87" y="144" width="4" height="4" rx="1" /><rect x="95" y="144" width="4" height="4" rx="1" /><rect x="103" y="144" width="4" height="4" rx="1" /><rect x="111" y="144" width="4" height="4" rx="1" /><rect x="119" y="144" width="4" height="4" rx="1" /><rect x="127" y="144" width="4" height="4" rx="1" /><rect x="135" y="144" width="4" height="4" rx="1" />
+        </g>
 
         <!-- lid / screen, hinges open from flat on the base -->
         <g class="loader-lid">
-          <rect class="lid-screen" x="52" y="46" width="56" height="60" rx="5" fill="#070a13" stroke="url(#ringGrad1)" stroke-width="2" />
+          <rect class="lid-screen" x="52" y="42" width="96" height="90" rx="6" fill="#070a13" stroke="url(#screenGrad)" stroke-width="2.5" />
+
+          <g clip-path="url(#screenClip)">
+            <g class="matrix-rain">
+              <text x="60" y="56" class="mx">1</text><text x="72" y="52" class="mx mx-b">0</text><text x="84" y="60" class="mx">A</text><text x="96" y="50" class="mx mx-c">F</text><text x="108" y="58" class="mx">1</text><text x="120" y="54" class="mx mx-b">7</text><text x="132" y="62" class="mx">0</text>
+              <text x="60" y="72" class="mx mx-c">E</text><text x="72" y="76" class="mx">1</text><text x="84" y="70" class="mx mx-b">0</text><text x="96" y="78" class="mx">3</text><text x="108" y="74" class="mx mx-c">1</text><text x="120" y="80" class="mx">B</text><text x="132" y="72" class="mx mx-b">0</text>
+              <text x="60" y="92" class="mx mx-b">0</text><text x="72" y="96" class="mx">1</text><text x="84" y="90" class="mx mx-c">C</text><text x="96" y="98" class="mx">0</text><text x="108" y="94" class="mx mx-b">9</text><text x="120" y="100" class="mx">1</text><text x="132" y="92" class="mx mx-c">A</text>
+              <text x="60" y="112" class="mx">1</text><text x="72" y="116" class="mx mx-b">D</text><text x="84" y="110" class="mx">0</text><text x="96" y="118" class="mx mx-c">1</text><text x="108" y="114" class="mx">6</text><text x="120" y="120" class="mx mx-b">0</text><text x="132" y="112" class="mx">1</text>
+            </g>
+            <rect class="scanline" x="52" y="0" width="96" height="6" fill="url(#scanGrad)" />
+          </g>
+
           <g class="lid-terminal">
-            <text x="58" y="60" class="lid-code">&gt; whoami</text>
-            <text x="58" y="72" class="lid-code lid-code-2">aditya@dev</text>
-            <text x="58" y="84" class="lid-code lid-code-3">$ init --ai</text>
-            <rect class="lid-cursor" x="58" y="90" width="9" height="11" rx="1" fill="#4fd1ff" />
+            <text x="60" y="70" class="lid-code">&gt; whoami</text>
+            <text x="60" y="86" class="lid-code lid-code-2">aditya@dev</text>
+            <text x="60" y="102" class="lid-code lid-code-3">$ init --ai_</text>
+            <rect class="lid-cursor" x="60" y="108" width="11" height="13" rx="1" />
           </g>
         </g>
       </g>
 
       <defs>
-        <linearGradient id="ringGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+        <clipPath id="screenClip">
+          <rect x="58" y="48" width="84" height="78" rx="4" />
+        </clipPath>
+        <radialGradient id="glowGrad" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#4fd1ff" stop-opacity="0.55" />
+          <stop offset="100%" stop-color="#8b5cf6" stop-opacity="0" />
+        </radialGradient>
+        <filter id="softBlur" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="10" />
+        </filter>
+        <linearGradient id="deckGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#1b2436" />
+          <stop offset="100%" stop-color="#0d1220" />
+        </linearGradient>
+        <linearGradient id="edgeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
           <stop offset="0%" stop-color="#4fd1ff" />
           <stop offset="100%" stop-color="#8b5cf6" />
         </linearGradient>
-        <linearGradient id="ringGrad2" x1="100%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stop-color="#8b5cf6" />
-          <stop offset="100%" stop-color="#4fd1ff" />
+        <linearGradient id="screenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#4fd1ff" />
+          <stop offset="100%" stop-color="#8b5cf6" />
+        </linearGradient>
+        <linearGradient id="scanGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#4fd1ff" stop-opacity="0" />
+          <stop offset="50%" stop-color="#4fd1ff" stop-opacity="0.35" />
+          <stop offset="100%" stop-color="#4fd1ff" stop-opacity="0" />
         </linearGradient>
       </defs>
     </svg>
