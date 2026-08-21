@@ -28,7 +28,25 @@
     <svg class="loader-logo" viewBox="0 0 160 160" width="140" height="140">
       <circle class="ring ring-outer" cx="80" cy="80" r="70" fill="none" stroke="url(#ringGrad1)" stroke-width="2" />
       <circle class="ring ring-inner" cx="80" cy="80" r="52" fill="none" stroke="url(#ringGrad2)" stroke-width="2" />
-      <text x="80" y="94" text-anchor="middle" class="loader-monogram">AS</text>
+
+      <!-- Hacker laptop opening animation -->
+      <g class="loader-laptop">
+        <!-- base / keyboard deck -->
+        <path class="lid-base" d="M46 108 L114 108 L122 118 L38 118 Z" fill="url(#ringGrad2)" opacity="0.9" />
+        <rect class="lid-base-edge" x="38" y="118" width="84" height="3" rx="1.5" fill="url(#ringGrad1)" opacity="0.6" />
+
+        <!-- lid / screen, hinges open from flat on the base -->
+        <g class="loader-lid">
+          <rect class="lid-screen" x="52" y="46" width="56" height="60" rx="5" fill="#070a13" stroke="url(#ringGrad1)" stroke-width="2" />
+          <g class="lid-terminal">
+            <text x="58" y="60" class="lid-code">&gt; whoami</text>
+            <text x="58" y="72" class="lid-code lid-code-2">aditya@dev</text>
+            <text x="58" y="84" class="lid-code lid-code-3">$ init --ai</text>
+            <rect class="lid-cursor" x="58" y="90" width="9" height="11" rx="1" fill="#4fd1ff" />
+          </g>
+        </g>
+      </g>
+
       <defs>
         <linearGradient id="ringGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stop-color="#4fd1ff" />
@@ -64,7 +82,19 @@
 <!-- Nav -->
 <header class="nav" id="nav">
   <div class="nav-inner">
-    <a href="#hero" class="nav-logo magnetic">AS<span class="nav-logo-dot">.</span></a>
+    <a href="#hero" class="nav-logo magnetic" aria-label="Aditya V Sodagudi — home">
+      <svg class="nav-logo-icon" viewBox="0 0 32 26" width="30" height="24" aria-hidden="true">
+        <rect x="5" y="2" width="22" height="15" rx="2" fill="none" stroke="url(#navGrad)" stroke-width="2" />
+        <text x="16" y="13" text-anchor="middle" class="nav-logo-glyph">&gt;_</text>
+        <path d="M2 19.5 L30 19.5 L26.5 24 L5.5 24 Z" fill="url(#navGrad)" opacity="0.9" />
+        <defs>
+          <linearGradient id="navGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#4fd1ff" />
+            <stop offset="100%" stop-color="#8b5cf6" />
+          </linearGradient>
+        </defs>
+      </svg>
+    </a>
     <nav class="nav-links" id="nav-links">
       <a href="#about" class="nav-link magnetic" data-section="about">About</a>
       <a href="#skills" class="nav-link magnetic" data-section="skills">Skills</a>
