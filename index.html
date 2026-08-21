@@ -117,20 +117,46 @@
 <header class="nav" id="nav">
   <div class="nav-inner">
     <a href="#hero" class="nav-logo magnetic" aria-label="Aditya V Sodagudi — home">
-      <svg class="nav-logo-icon" viewBox="0 0 32 32" width="26" height="26" aria-hidden="true">
-        <ellipse class="ufo-beam" cx="16" cy="27" rx="6" ry="8" fill="url(#navBeam)" />
-        <circle cx="16" cy="11" r="7" fill="#0a0f1a" stroke="url(#navGrad)" stroke-width="1.6" />
-        <ellipse cx="16" cy="18" rx="14" ry="5" fill="#0a0f1a" stroke="url(#navGrad)" stroke-width="1.6" />
-        <circle class="ufo-light" cx="8" cy="19.5" r="1.3" fill="#4fd1ff" />
-        <circle class="ufo-light ufo-light-b" cx="16" cy="21.5" r="1.3" fill="#8b5cf6" />
-        <circle class="ufo-light ufo-light-c" cx="24" cy="19.5" r="1.3" fill="#4fd1ff" />
+      <svg class="nav-logo-icon" viewBox="0 0 32 32" width="28" height="28" aria-hidden="true">
+        <ellipse class="ufo-beam" cx="16" cy="27" rx="6.5" ry="8.5" fill="url(#navBeam)" />
+
+        <!-- saucer body: metallic gradient shell -->
+        <ellipse cx="16" cy="18.6" rx="14.5" ry="5.2" fill="url(#navHull)" stroke="#0a0f1a" stroke-width="0.6" />
+        <ellipse cx="16" cy="17.4" rx="14.5" ry="4.4" fill="url(#navHullTop)" opacity="0.9" />
+        <ellipse cx="12" cy="15.6" rx="5" ry="1.3" fill="#ffffff" opacity="0.35" />
+
+        <!-- glass dome -->
+        <circle cx="16" cy="11" r="7.2" fill="url(#navDome)" stroke="url(#navDomeRim)" stroke-width="1.1" />
+        <ellipse cx="13.4" cy="8" rx="2.6" ry="1.6" fill="#ffffff" opacity="0.55" />
+
+        <!-- rim lights -->
+        <circle class="ufo-light ufo-light-a" cx="6" cy="19" r="1.5" fill="#ff5fc4" />
+        <circle class="ufo-light ufo-light-b" cx="12.5" cy="22" r="1.5" fill="#ffd23f" />
+        <circle class="ufo-light ufo-light-c" cx="19.5" cy="22" r="1.5" fill="#4fd1ff" />
+        <circle class="ufo-light ufo-light-d" cx="26" cy="19" r="1.5" fill="#8b5cf6" />
+
         <defs>
-          <linearGradient id="navGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#4fd1ff" />
+          <linearGradient id="navHull" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#ff5fc4" />
+            <stop offset="45%" stop-color="#8b5cf6" />
+            <stop offset="100%" stop-color="#4fd1ff" />
+          </linearGradient>
+          <linearGradient id="navHullTop" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#7ee8ff" />
+            <stop offset="50%" stop-color="#a78bfa" />
+            <stop offset="100%" stop-color="#ff8fd9" />
+          </linearGradient>
+          <radialGradient id="navDome" cx="35%" cy="30%" r="75%">
+            <stop offset="0%" stop-color="#e8fbff" />
+            <stop offset="45%" stop-color="#7ee8ff" />
+            <stop offset="100%" stop-color="#8b5cf6" />
+          </radialGradient>
+          <linearGradient id="navDomeRim" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#ffffff" />
             <stop offset="100%" stop-color="#8b5cf6" />
           </linearGradient>
           <linearGradient id="navBeam" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stop-color="#4fd1ff" stop-opacity="0.5" />
+            <stop offset="0%" stop-color="#ffd23f" stop-opacity="0.55" />
             <stop offset="100%" stop-color="#4fd1ff" stop-opacity="0" />
           </linearGradient>
         </defs>

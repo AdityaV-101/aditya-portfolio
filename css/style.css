@@ -261,7 +261,8 @@ img { max-width: 100%; display: block; }
 .ufo-light { animation: ufo-light-blink 1.2s ease-in-out infinite; }
 .ufo-light-b { animation-delay: 0.2s; }
 .ufo-light-c { animation-delay: 0.4s; }
-@keyframes ufo-light-blink { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+.ufo-light-d { animation-delay: 0.6s; }
+@keyframes ufo-light-blink { 0%, 100% { opacity: 0.35; } 50% { opacity: 1; } }
 .nav-links { display: flex; gap: 30px; }
 .nav-link {
   font-size: 0.9rem;
