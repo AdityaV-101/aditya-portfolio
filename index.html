@@ -117,14 +117,20 @@
 <header class="nav" id="nav">
   <div class="nav-inner">
     <a href="#hero" class="nav-logo magnetic" aria-label="Aditya V Sodagudi — home">
-      <svg class="nav-logo-icon" viewBox="0 0 32 26" width="30" height="24" aria-hidden="true">
-        <rect x="5" y="2" width="22" height="15" rx="2" fill="none" stroke="url(#navGrad)" stroke-width="2" />
-        <text x="16" y="13" text-anchor="middle" class="nav-logo-glyph">&gt;_</text>
-        <path d="M2 19.5 L30 19.5 L26.5 24 L5.5 24 Z" fill="url(#navGrad)" opacity="0.9" />
+      <svg class="nav-logo-icon" viewBox="0 0 32 32" width="26" height="26" aria-hidden="true">
+        <path class="ship-flame" d="M13 21 L16 29 L19 21 Z" fill="url(#navFlame)" />
+        <path d="M11 21 L6 27 L11 24.5 Z" fill="url(#navGrad)" opacity="0.85" />
+        <path d="M21 21 L26 27 L21 24.5 Z" fill="url(#navGrad)" opacity="0.85" />
+        <path d="M16 2 C20.5 6.5 22 12.5 21 21 L11 21 C10 12.5 11.5 6.5 16 2 Z" fill="#0a0f1a" stroke="url(#navGrad)" stroke-width="1.6" stroke-linejoin="round" />
+        <circle cx="16" cy="12.5" r="3" fill="#0a0f1a" stroke="url(#navGrad)" stroke-width="1.6" />
         <defs>
           <linearGradient id="navGrad" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stop-color="#4fd1ff" />
             <stop offset="100%" stop-color="#8b5cf6" />
+          </linearGradient>
+          <linearGradient id="navFlame" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#4fd1ff" />
+            <stop offset="100%" stop-color="#8b5cf6" stop-opacity="0.3" />
           </linearGradient>
         </defs>
       </svg>
