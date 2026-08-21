@@ -254,14 +254,14 @@ img { max-width: 100%; display: block; }
 }
 .nav-logo:hover { filter: drop-shadow(0 0 8px rgba(79,209,255,0.5)); }
 .nav-logo-icon { display: block; }
-.ship-flame {
-  transform-origin: 16px 21px;
-  animation: ship-flicker 0.7s ease-in-out infinite alternate;
-}
-@keyframes ship-flicker {
-  from { transform: scaleY(0.85) scaleX(0.9); opacity: 0.75; }
-  to   { transform: scaleY(1.1) scaleX(1); opacity: 1; }
-}
+.nav-logo-icon { animation: ufo-hover 2.4s ease-in-out infinite; }
+@keyframes ufo-hover { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
+.ufo-beam { animation: beam-pulse 1.6s ease-in-out infinite; }
+@keyframes beam-pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 0.85; } }
+.ufo-light { animation: ufo-light-blink 1.2s ease-in-out infinite; }
+.ufo-light-b { animation-delay: 0.2s; }
+.ufo-light-c { animation-delay: 0.4s; }
+@keyframes ufo-light-blink { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
 .nav-links { display: flex; gap: 30px; }
 .nav-link {
   font-size: 0.9rem;
