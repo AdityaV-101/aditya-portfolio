@@ -445,6 +445,46 @@
           </ul>
         </a>
 
+        <a class="project-card tilt-card reveal" href="https://github.com/AdityaV-101/customer-churn-prediction-intelligence" target="_blank" rel="noopener noreferrer">
+          <div class="project-card-glow"></div>
+          <span class="project-tag">scikit-learn / Optuna</span>
+          <h3>Customer Churn Prediction Intelligence</h3>
+          <p class="project-sub">Cost-Aware Churn Model on 1M Retail Transactions</p>
+          <p>
+            Predicts 90-day churn from raw invoice-level transactions on the UCI Online Retail II
+            dataset (1M+ line items), with the churn label itself engineered from an
+            inter-purchase-time distribution analysis rather than assumed. A temporal, not random,
+            train/test split exposes a 9-point PR-AUC gap versus a naive random split, and
+            dedicated leakage tests assert the feature pipeline rejects any row at or after its
+            own snapshot date. Random Forest / LightGBM reach 0.737 PR-AUC against a 0.662
+            recency-rule baseline; the decision threshold comes from an explicit cost matrix, and
+            SHAP explanations plus a fairness audit across country, tenure, and spend segments
+            ship alongside a FastAPI service and Streamlit demo.
+          </p>
+          <ul class="project-stack">
+            <li>Random Forest / LightGBM</li><li>Optuna</li><li>SHAP</li><li>FastAPI</li>
+          </ul>
+        </a>
+
+        <a class="project-card tilt-card reveal" href="https://github.com/AdityaV-101/nyc-taxi-demand-revenue-intelligence" target="_blank" rel="noopener noreferrer">
+          <div class="project-card-glow"></div>
+          <span class="project-tag">DuckDB / Streamlit</span>
+          <h3>NYC Taxi Demand &amp; Revenue Intelligence</h3>
+          <p class="project-sub">44M-Trip Analytics Pipeline &amp; Dashboard</p>
+          <p>
+            End-to-end analytics stack over 43.9M NYC yellow taxi trips spanning 12 months, built
+            on DuckDB SQL modeling with a staging &rarr; intermediate &rarr; marts layer, an
+            automated five-check data-quality suite (8.5% of raw rows rejected with cause
+            attached), and a Streamlit dashboard. Surfaces findings like a 15x spread in driver
+            revenue per hour across zones, a measurable year-over-year decline in credit-card
+            tipping, and a 24.5% holiday drop in trip volume &mdash; each reported with an explicit
+            confidence level and the caveat behind it rather than presented as flat fact.
+          </p>
+          <ul class="project-stack">
+            <li>DuckDB</li><li>SQL</li><li>Streamlit</li><li>Data Quality</li>
+          </ul>
+        </a>
+
         <a class="project-card tilt-card reveal" href="https://github.com/AdityaV-101/ai-hedge-fund-simulator" target="_blank" rel="noopener noreferrer">
           <div class="project-card-glow"></div>
           <span class="project-tag">Research Pipeline</span>
