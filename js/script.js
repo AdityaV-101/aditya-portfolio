@@ -63,26 +63,82 @@
     if (!reduceMotion) requestAnimationFrame(draw);
   })();
 
-  /* ---------------- Custom cursor ---------------- */
+  /* ---------------- Custom cursor: rocket with exhaust fumes ---------------- */
   if (!isTouch) {
-    const dot = document.getElementById('cursor-dot');
-    const ring = document.getElementById('cursor-ring');
-    let dotX = 0, dotY = 0, ringX = 0, ringY = 0;
+    const rocket = document.getElementById('cursor-rocket');
+    const fumeCanvas = document.getElementById('rocket-fumes');
+    const fctx = fumeCanvas.getContext('2d');
+    const ROCKET_LEN = 31;
+    let mx = -100, my = -100, px = -100, py = -100, angle = 0, targetAngle = 0, seen = false;
+    const puffs = [];
+
+    function sizeFumes() {
+      fumeCanvas.width = window.innerWidth;
+      fumeCanvas.height = window.innerHeight;
+    }
+    sizeFumes();
+    window.addEventListener('resize', sizeFumes);
+
     window.addEventListener('mousemove', e => {
-      dotX = e.clientX; dotY = e.clientY;
-      dot.style.transform = `translate(${dotX}px, ${dotY}px) translate(-50%,-50%)`;
+      mx = e.clientX; my = e.clientY;
+      if (!seen) { px = mx; py = my; seen = true; }
     });
+
+    function spawn(x, y, dirX, dirY, speed) {
+      const n = Math.min(4, 1 + Math.floor(speed / 8));
+      for (let i = 0; i < n; i++) {
+        const spread = 0.7;
+        const vx = -dirX * (0.6 + Math.random() * 1.2) + (Math.random() - 0.5) * spread;
+        const vy = -dirY * (0.6 + Math.random() * 1.2) + (Math.random() - 0.5) * spread;
+        puffs.push({
+          x: x + (Math.random() - 0.5) * 4, y: y + (Math.random() - 0.5) * 4,
+          vx, vy, r: 2 + Math.random() * 3, life: 0, max: 28 + Math.random() * 20
+        });
+      }
+    }
+
     function raf() {
-      ringX += (dotX - ringX) * 0.18;
-      ringY += (dotY - ringY) * 0.18;
-      ring.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%,-50%)`;
+      const dx = mx - px, dy = my - py;
+      const speed = Math.hypot(dx, dy);
+      if (speed > 1.5) {
+        targetAngle = Math.atan2(dy, dx) + Math.PI / 2;
+      }
+      let diff = targetAngle - angle;
+      diff = Math.atan2(Math.sin(diff), Math.cos(diff));
+      angle += diff * 0.22;
+      rocket.style.transform = `translate(${mx - 12}px, ${my}px) rotate(${angle}rad)`;
+
+      if (!reduceMotion && speed > 1.5) {
+        const hx = Math.sin(angle), hy = -Math.cos(angle);
+        spawn(mx - hx * (ROCKET_LEN + 4), my - hy * (ROCKET_LEN + 4), hx, hy, speed);
+      }
+      px = mx; py = my;
+
+      fctx.clearRect(0, 0, fumeCanvas.width, fumeCanvas.height);
+      for (let i = puffs.length - 1; i >= 0; i--) {
+        const p = puffs[i];
+        p.life++;
+        if (p.life >= p.max) { puffs.splice(i, 1); continue; }
+        p.x += p.vx; p.y += p.vy;
+        p.vx *= 0.96; p.vy *= 0.96;
+        const t = p.life / p.max;
+        const radius = p.r * (1 + t * 2.2);
+        const alpha = (1 - t) * 0.55;
+        const g = Math.round(210 - t * 110);
+        const b = Math.round(90 + t * 90);
+        const rch = Math.round(255 - t * 80);
+        fctx.beginPath();
+        fctx.fillStyle = `rgba(${rch},${g},${b},${alpha})`;
+        fctx.arc(p.x, p.y, radius, 0, Math.PI * 2);
+        fctx.fill();
+      }
       requestAnimationFrame(raf);
     }
     requestAnimationFrame(raf);
 
     document.querySelectorAll('a, button, .tilt-card').forEach(el => {
-      el.addEventListener('mouseenter', () => ring.classList.add('active'));
-      el.addEventListener('mouseleave', () => ring.classList.remove('active'));
+      el.addEventListener('mouseenter', () => rocket.classList.add('active'));
+      el.addEventListener('mouseleave', () => rocket.classList.remove('active'));
     });
   }
 

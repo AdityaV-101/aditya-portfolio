@@ -25,8 +25,30 @@
 <canvas id="bg-canvas" aria-hidden="true"></canvas>
 
 <!-- Custom cursor -->
-<div class="cursor-dot" id="cursor-dot"></div>
-<div class="cursor-ring" id="cursor-ring"></div>
+<canvas id="rocket-fumes" aria-hidden="true"></canvas>
+<div class="cursor-rocket" id="cursor-rocket" aria-hidden="true">
+  <svg viewBox="0 0 24 44" width="24" height="44">
+    <defs>
+      <linearGradient id="rkBody" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#cfd8ea" />
+        <stop offset="55%" stop-color="#ffffff" />
+        <stop offset="100%" stop-color="#9aa7c2" />
+      </linearGradient>
+      <linearGradient id="rkFlame" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#fff3b0" />
+        <stop offset="45%" stop-color="#ffb347" />
+        <stop offset="100%" stop-color="#ff5f2e" stop-opacity="0" />
+      </linearGradient>
+    </defs>
+    <path class="rk-flame" d="M8.5 31 Q12 46 15.5 31 Z" fill="url(#rkFlame)" />
+    <path d="M12 0 C17 7 18 16 17.5 29 L6.5 29 C6 16 7 7 12 0 Z" fill="url(#rkBody)" stroke="#0a0f1a" stroke-width="0.6" />
+    <path d="M12 0 C14.4 3.2 15.7 6.2 16.2 9 L7.8 9 C8.3 6.2 9.6 3.2 12 0 Z" fill="#ff5fc4" />
+    <circle cx="12" cy="17" r="3" fill="#4fd1ff" stroke="#0a0f1a" stroke-width="0.8" />
+    <path d="M6.5 22 L1 32 L6.5 29 Z" fill="#8b5cf6" stroke="#0a0f1a" stroke-width="0.5" />
+    <path d="M17.5 22 L23 32 L17.5 29 Z" fill="#8b5cf6" stroke="#0a0f1a" stroke-width="0.5" />
+    <rect x="8.5" y="29" width="7" height="2.2" rx="0.8" fill="#4a5470" />
+  </svg>
+</div>
 
 <!-- Scroll progress -->
 <div class="scroll-progress" id="scroll-progress"></div>
