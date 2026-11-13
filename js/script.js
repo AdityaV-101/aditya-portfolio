@@ -6,47 +6,6 @@
 
   document.getElementById('year').textContent = new Date().getFullYear();
 
-  /* ---------------- Loader ---------------- */
-  (function loader() {
-    const loaderEl = document.getElementById('loader');
-    const statusText = document.getElementById('loader-status-text');
-    const barFill = document.getElementById('loader-bar-fill');
-    const percentEl = document.getElementById('loader-percent');
-    const rings = document.querySelectorAll('.ring');
-
-    const phrases = ['Initializing system', 'Compiling components', 'Connecting neurons', 'Ready'];
-    let phraseIdx = 0;
-    const phraseInterval = setInterval(() => {
-      phraseIdx = (phraseIdx + 1) % phrases.length;
-      statusText.textContent = phrases[phraseIdx];
-    }, 650);
-
-    const duration = reduceMotion ? 300 : 2500;
-    const start = performance.now();
-
-    function tick(now) {
-      const elapsed = now - start;
-      const pct = Math.min(100, Math.round((elapsed / duration) * 100));
-      barFill.style.width = pct + '%';
-      percentEl.textContent = pct + '%';
-      if (elapsed < duration) {
-        requestAnimationFrame(tick);
-      } else {
-        statusText.textContent = 'Ready';
-        clearInterval(phraseInterval);
-        rings.forEach(r => r.classList.add('spin'));
-        setTimeout(finish, 350);
-      }
-    }
-    requestAnimationFrame(tick);
-
-    function finish() {
-      loaderEl.classList.add('hide');
-      document.body.classList.add('loaded');
-      setTimeout(() => { loaderEl.style.display = 'none'; }, 750);
-    }
-  })();
-
   /* ---------------- Ambient particle-network background ---------------- */
   (function bgCanvas() {
     const canvas = document.getElementById('bg-canvas');
@@ -102,28 +61,6 @@
       requestAnimationFrame(draw);
     }
     if (!reduceMotion) requestAnimationFrame(draw);
-  })();
-
-  /* ---------------- Loader grid background ---------------- */
-  (function loaderGrid() {
-    const canvas = document.getElementById('loader-grid');
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    function resize() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      draw();
-    }
-    function draw() {
-      const w = canvas.width, h = canvas.height, gap = 42;
-      ctx.clearRect(0, 0, w, h);
-      ctx.strokeStyle = 'rgba(79,209,255,0.06)';
-      ctx.lineWidth = 1;
-      for (let x = 0; x < w; x += gap) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
-      for (let y = 0; y < h; y += gap) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
-    }
-    window.addEventListener('resize', resize);
-    resize();
   })();
 
   /* ---------------- Custom cursor ---------------- */
