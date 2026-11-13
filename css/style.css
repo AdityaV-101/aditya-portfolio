@@ -68,6 +68,14 @@ img { max-width: 100%; display: block; }
 }
 .cursor-rocket svg { display: block; overflow: visible; transform-origin: 12px 0; transition: transform 0.2s var(--ease); }
 .cursor-rocket.active svg { transform: scale(1.25); }
+.cursor-rocket.hit svg { animation: rk-shake 0.35s linear; }
+@keyframes rk-shake {
+  0%, 100% { transform: translate(0, 0); }
+  20% { transform: translate(-3px, 2px); }
+  40% { transform: translate(3px, -2px); }
+  60% { transform: translate(-2px, -2px); }
+  80% { transform: translate(2px, 2px); }
+}
 .rk-flame { transform-origin: 12px 31px; animation: rk-flicker 0.12s ease-in-out infinite alternate; }
 @keyframes rk-flicker { from { transform: scaleY(0.85); } to { transform: scaleY(1.2); } }
 #rocket-fumes {

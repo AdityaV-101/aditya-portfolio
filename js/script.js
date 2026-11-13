@@ -97,6 +97,83 @@
       }
     }
 
+    /* ---- Bombs ---- */
+    const bombs = [];
+    const blasts = [];
+    const shockwaves = [];
+    const BOMB_R = 14;
+    const bombCount = Math.max(3, Math.min(6, Math.round(window.innerWidth / 260)));
+
+    function placeBomb(b, now) {
+      b.x = 60 + Math.random() * (window.innerWidth - 120);
+      b.y = 90 + Math.random() * (window.innerHeight - 160);
+      const a = Math.random() * Math.PI * 2;
+      const v = 0.15 + Math.random() * 0.25;
+      b.vx = Math.cos(a) * v; b.vy = Math.sin(a) * v;
+      b.phase = Math.random() * 6.28;
+      b.born = now;
+      b.alive = true;
+      b.respawnAt = 0;
+    }
+    for (let i = 0; i < bombCount; i++) {
+      const b = {};
+      placeBomb(b, performance.now() - 1000);
+      bombs.push(b);
+    }
+
+    function explode(b, now) {
+      b.alive = false;
+      b.respawnAt = now + 3500 + Math.random() * 2500;
+      const fire = reduceMotion ? 14 : 42;
+      for (let i = 0; i < fire; i++) {
+        const a = Math.random() * Math.PI * 2;
+        const s = 1 + Math.random() * 6;
+        blasts.push({
+          x: b.x, y: b.y, vx: Math.cos(a) * s, vy: Math.sin(a) * s,
+          r: 2 + Math.random() * 4, life: 0, max: 24 + Math.random() * 22, smoke: false
+        });
+      }
+      for (let i = 0; i < (reduceMotion ? 4 : 12); i++) {
+        const a = Math.random() * Math.PI * 2;
+        const s = 0.4 + Math.random() * 1.8;
+        blasts.push({
+          x: b.x, y: b.y, vx: Math.cos(a) * s, vy: Math.sin(a) * s - 0.3,
+          r: 6 + Math.random() * 6, life: 0, max: 45 + Math.random() * 25, smoke: true
+        });
+      }
+      shockwaves.push({ x: b.x, y: b.y, life: 0, max: 26 });
+      rocket.classList.remove('hit');
+      void rocket.offsetWidth;
+      rocket.classList.add('hit');
+    }
+
+    function drawBomb(b, now) {
+      const grow = Math.min(1, (now - b.born) / 400);
+      const bob = Math.sin(now / 600 + b.phase) * 3;
+      const x = b.x, y = b.y + bob, r = BOMB_R * grow;
+      fctx.save();
+      fctx.shadowColor = 'rgba(255,95,46,0.55)';
+      fctx.shadowBlur = 14;
+      const g = fctx.createRadialGradient(x - r * 0.35, y - r * 0.4, r * 0.1, x, y, r);
+      g.addColorStop(0, '#5a6480');
+      g.addColorStop(1, '#0b0f1c');
+      fctx.fillStyle = g;
+      fctx.beginPath(); fctx.arc(x, y, r, 0, Math.PI * 2); fctx.fill();
+      fctx.restore();
+      fctx.strokeStyle = 'rgba(255,255,255,0.18)'; fctx.lineWidth = 1;
+      fctx.beginPath(); fctx.arc(x, y, r, 0, Math.PI * 2); fctx.stroke();
+      // cap + fuse
+      fctx.fillStyle = '#2a3148';
+      fctx.fillRect(x - r * 0.3, y - r * 1.15, r * 0.6, r * 0.3);
+      fctx.strokeStyle = '#c9a36b'; fctx.lineWidth = 2;
+      fctx.beginPath(); fctx.moveTo(x, y - r * 1.15);
+      fctx.quadraticCurveTo(x + r * 0.5, y - r * 1.6, x + r * 0.8, y - r * 1.5); fctx.stroke();
+      // spark
+      const flick = 0.6 + Math.random() * 0.8;
+      fctx.fillStyle = `rgba(255,${Math.round(180 + Math.random() * 60)},80,0.95)`;
+      fctx.beginPath(); fctx.arc(x + r * 0.8, y - r * 1.5, 2.6 * flick * grow, 0, Math.PI * 2); fctx.fill();
+    }
+
     function raf() {
       const dx = mx - px, dy = my - py;
       const speed = Math.hypot(dx, dy);
@@ -132,6 +209,57 @@
         fctx.arc(p.x, p.y, radius, 0, Math.PI * 2);
         fctx.fill();
       }
+
+      // bombs: hit test against rocket nose and body, then draw
+      const now = performance.now();
+      const hx2 = Math.sin(angle), hy2 = -Math.cos(angle);
+      for (const b of bombs) {
+        if (!b.alive) {
+          if (now >= b.respawnAt) placeBomb(b, now);
+          continue;
+        }
+        b.x += b.vx; b.y += b.vy;
+        if (b.x < 40 || b.x > window.innerWidth - 40) b.vx *= -1;
+        if (b.y < 80 || b.y > window.innerHeight - 40) b.vy *= -1;
+        const by = b.y + Math.sin(now / 600 + b.phase) * 3;
+        const hitR = BOMB_R + 10;
+        const dNose = Math.hypot(mx - b.x, my - by);
+        const dBody = Math.hypot(mx - hx2 * 15 - b.x, my - hy2 * 15 - by);
+        if (seen && (dNose < hitR || dBody < hitR)) { explode(b, now); continue; }
+        drawBomb(b, now);
+      }
+
+      // explosion particles and shockwaves
+      fctx.save();
+      for (let i = blasts.length - 1; i >= 0; i--) {
+        const p = blasts[i];
+        p.life++;
+        if (p.life >= p.max) { blasts.splice(i, 1); continue; }
+        p.x += p.vx; p.y += p.vy;
+        p.vx *= 0.93; p.vy *= 0.93;
+        const t = p.life / p.max;
+        fctx.globalCompositeOperation = p.smoke ? 'source-over' : 'lighter';
+        fctx.beginPath();
+        if (p.smoke) {
+          fctx.fillStyle = `rgba(90,96,115,${(1 - t) * 0.35})`;
+          fctx.arc(p.x, p.y, p.r * (1 + t * 2), 0, Math.PI * 2);
+        } else {
+          fctx.fillStyle = `rgba(255,${Math.round(200 - t * 140)},${Math.round(70 - t * 50)},${(1 - t) * 0.9})`;
+          fctx.arc(p.x, p.y, p.r * (1 - t * 0.5), 0, Math.PI * 2);
+        }
+        fctx.fill();
+      }
+      fctx.globalCompositeOperation = 'source-over';
+      for (let i = shockwaves.length - 1; i >= 0; i--) {
+        const s = shockwaves[i];
+        s.life++;
+        if (s.life >= s.max) { shockwaves.splice(i, 1); continue; }
+        const t = s.life / s.max;
+        fctx.strokeStyle = `rgba(255,210,63,${(1 - t) * 0.8})`;
+        fctx.lineWidth = 3 * (1 - t) + 1;
+        fctx.beginPath(); fctx.arc(s.x, s.y, 10 + t * 80, 0, Math.PI * 2); fctx.stroke();
+      }
+      fctx.restore();
       requestAnimationFrame(raf);
     }
     requestAnimationFrame(raf);
