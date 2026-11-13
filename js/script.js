@@ -4,6 +4,9 @@
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const isTouch = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
 
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  if (!location.hash) window.scrollTo(0, 0);
+
   document.getElementById('year').textContent = new Date().getFullYear();
 
   /* ---------------- Ambient particle-network background ---------------- */
@@ -101,11 +104,11 @@
     const asteroids = [];
     const blasts = [];
     const shockwaves = [];
-    const asteroidCount = window.innerWidth < 900 ? 3 : 4;
+    const asteroidCount = 1;
     let dead = false, respawnAt = 0, invulnUntil = 0;
 
     function makeAsteroid(avoidX, avoidY) {
-      const r = 16 + Math.random() * 14;
+      const r = 26;
       let x, y, tries = 0;
       do {
         x = 60 + Math.random() * (window.innerWidth - 120);
@@ -114,11 +117,11 @@
       } while (tries < 20 && Math.hypot(x - avoidX, y - avoidY) < 220);
       const a = Math.random() * Math.PI * 2;
       const v = 0.3 + Math.random() * 0.5;
-      const n = 9 + Math.floor(Math.random() * 4);
+      const n = 14;
       const shape = [];
-      for (let i = 0; i < n; i++) shape.push(0.74 + Math.random() * 0.4);
+      for (let i = 0; i < n; i++) shape.push(0.86 + Math.random() * 0.2);
       const craters = [];
-      for (let i = 0; i < 3; i++) {
+      for (let i = 0; i < 0; i++) {
         const ca = Math.random() * Math.PI * 2, cd = Math.random() * 0.5;
         craters.push({ x: Math.cos(ca) * cd, y: Math.sin(ca) * cd, r: 0.12 + Math.random() * 0.14 });
       }
@@ -168,18 +171,20 @@
         if (i === 0) fctx.moveTo(px2, py2); else fctx.lineTo(px2, py2);
       }
       fctx.closePath();
-      const g = fctx.createRadialGradient(-s.r * 0.35, -s.r * 0.4, s.r * 0.1, 0, 0, s.r * 1.1);
-      g.addColorStop(0, '#8a8f9e');
-      g.addColorStop(1, '#2b2f3d');
+      fctx.shadowColor = 'rgba(139,92,246,0.55)';
+      fctx.shadowBlur = 18;
+      const g = fctx.createRadialGradient(-s.r * 0.3, -s.r * 0.35, s.r * 0.1, 0, 0, s.r * 1.1);
+      g.addColorStop(0, '#1b2236');
+      g.addColorStop(1, '#0b0f1c');
       fctx.fillStyle = g;
       fctx.fill();
-      fctx.strokeStyle = 'rgba(200,210,235,0.25)';
-      fctx.lineWidth = 1.2;
+      fctx.shadowBlur = 0;
+      const edge = fctx.createLinearGradient(-s.r, -s.r, s.r, s.r);
+      edge.addColorStop(0, '#4fd1ff');
+      edge.addColorStop(1, '#8b5cf6');
+      fctx.strokeStyle = edge;
+      fctx.lineWidth = 1.6;
       fctx.stroke();
-      fctx.fillStyle = 'rgba(15,18,30,0.45)';
-      for (const c of s.craters) {
-        fctx.beginPath(); fctx.arc(c.x * s.r, c.y * s.r, c.r * s.r, 0, Math.PI * 2); fctx.fill();
-      }
       fctx.restore();
     }
 
