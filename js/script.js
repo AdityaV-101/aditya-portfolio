@@ -199,7 +199,7 @@
   /* ---------------- Hero role-cycling text ---------------- */
   (function heroCycle() {
     const el = document.getElementById('hero-cycle');
-    const roles = ['AI systems', 'machine learning models', 'computer vision pipelines'];
+    const roles = ['AI systems', 'machine learning systems that ship', 'computer vision pipelines'];
     if (reduceMotion) { el.textContent = roles[0]; return; }
     let roleIdx = 0, charIdx = 0, deleting = false;
 
