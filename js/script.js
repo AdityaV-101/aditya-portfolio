@@ -285,7 +285,7 @@
     const toast = document.getElementById('toast');
     let toastTimer;
     emailCard.addEventListener('click', async () => {
-      const email = 'asodagudi@binghamton.edu';
+      const email = 'aditya.sodagudi@gmail.com';
       try {
         await navigator.clipboard.writeText(email);
       } catch (err) {
