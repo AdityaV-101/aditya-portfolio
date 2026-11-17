@@ -125,14 +125,9 @@
   const inCheck = (board, turn) => attacked(board, kingSq(board, turn), other(turn));
 
   // Can `turn` (attacker) force mate within `n` of its own moves? Returns true/false.
-  // Only checking moves are considered for the attacker, which keeps the search fast.
-  function checkingMoves(board, turn) {
-    return legalMoves(board, turn).filter(m => inCheck(applyMove(board, m), other(turn)));
-  }
-
   function attackerWins(board, turn, n) {
     if (n === 0) return false;
-    for (const m of checkingMoves(board, turn)) {
+    for (const m of legalMoves(board, turn)) {
       const nb = applyMove(board, m);
       if (defenderLoses(nb, other(turn), n, turn)) return true;
     }
@@ -151,7 +146,7 @@
 
   // Attacker moves that keep a forced mate within n moves.
   function winningMoves(board, turn, n) {
-    return checkingMoves(board, turn).filter(m => defenderLoses(applyMove(board, m), other(turn), n, turn));
+    return legalMoves(board, turn).filter(m => defenderLoses(applyMove(board, m), other(turn), n, turn));
   }
 
   // Defender picks the reply that survives longest (ties: first found).
@@ -168,16 +163,14 @@
   /* ---------------- Puzzle ---------------- */
   const PUZZLES = [
     {
-      // Philidor's Legacy: knight checks, then a queen sacrifice and smothered mate
-      fen: '3r3k/ppp3pp/8/6N1/8/1Q6/8/6K1 w',
-      n: 4,
-      // One hint per move of the solution
+      // Knight and queen sacrifice leading to a smothered mate
+      fen: '5r1k/ppp3pp/7N/8/2Q5/8/8/6K1 w',
+      n: 2,
       hints: [
-        'Your queen already eyes the g8 square. Use the knight to check on the diagonal square it blocks.',
-        'Black\'s king has to step aside. Now unleash a double check by moving the knight again.',
-        'The king is forced back into the corner. Sacrifice the queen with check on the back rank.',
-        'The king is boxed in by its own rook and pawns. One knight check finishes the game.',
+        'Black\'s king is boxed in by its own rook and pawns. Think about forcing the rook to capture on the back rank.',
+        'Sacrifice the queen with check. Your knight guards the square, so the king cannot take it.',
       ],
+      finalHint: 'The king has no squares left. Your knight can deliver the final check.',
     },
   ];
   const puzzle = PUZZLES[Math.floor(Math.random() * PUZZLES.length)];
@@ -319,7 +312,7 @@
     const good = currentWinning();
     hintMove = good[0];
     if (hintLevel === 1) {
-      const staged = puzzle.hints[puzzle.n - movesLeft];
+      const staged = movesLeft === 1 ? puzzle.finalHint : puzzle.hints[movesLeft === puzzle.n ? 0 : 1];
       hintText.textContent = 'Hint 1/3: ' + staged;
     } else if (hintLevel === 2) {
       const piece = NAMES[board[hintMove.from].toUpperCase()];
