@@ -66,6 +66,233 @@
     if (!reduceMotion) requestAnimationFrame(draw);
   })();
 
+  /* ---------------- Custom cursor: rocket with exhaust fumes ---------------- */
+  if (!isTouch) {
+    const rocket = document.getElementById('cursor-rocket');
+    const fumeCanvas = document.getElementById('rocket-fumes');
+    const fctx = fumeCanvas.getContext('2d');
+    const ROCKET_LEN = 31;
+    let mx = -100, my = -100, px = -100, py = -100, angle = 0, targetAngle = 0, seen = false;
+    const puffs = [];
+
+    function sizeFumes() {
+      fumeCanvas.width = window.innerWidth;
+      fumeCanvas.height = window.innerHeight;
+    }
+    sizeFumes();
+    window.addEventListener('resize', sizeFumes);
+
+    window.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      if (!seen) { px = mx; py = my; seen = true; }
+    });
+
+    function spawn(x, y, dirX, dirY, speed) {
+      const n = Math.min(4, 1 + Math.floor(speed / 8));
+      for (let i = 0; i < n; i++) {
+        const spread = 0.7;
+        const vx = -dirX * (0.6 + Math.random() * 1.2) + (Math.random() - 0.5) * spread;
+        const vy = -dirY * (0.6 + Math.random() * 1.2) + (Math.random() - 0.5) * spread;
+        puffs.push({
+          x: x + (Math.random() - 0.5) * 4, y: y + (Math.random() - 0.5) * 4,
+          vx, vy, r: 2 + Math.random() * 3, life: 0, max: 28 + Math.random() * 20
+        });
+      }
+    }
+
+    /* ---- Asteroids ---- */
+    const asteroids = [];
+    const blasts = [];
+    const shockwaves = [];
+    const asteroidCount = 1;
+    let dead = false, respawnAt = 0, invulnUntil = 0;
+
+    function makeAsteroid(avoidX, avoidY) {
+      const r = 26;
+      let x, y, tries = 0;
+      do {
+        x = 60 + Math.random() * (window.innerWidth - 120);
+        y = 90 + Math.random() * (window.innerHeight - 160);
+        tries++;
+      } while (tries < 20 && Math.hypot(x - avoidX, y - avoidY) < 220);
+      const a = Math.random() * Math.PI * 2;
+      const v = 0.3 + Math.random() * 0.5;
+      const n = 14;
+      const shape = [];
+      for (let i = 0; i < n; i++) shape.push(0.86 + Math.random() * 0.2);
+      const craters = [];
+      for (let i = 0; i < 0; i++) {
+        const ca = Math.random() * Math.PI * 2, cd = Math.random() * 0.5;
+        craters.push({ x: Math.cos(ca) * cd, y: Math.sin(ca) * cd, r: 0.12 + Math.random() * 0.14 });
+      }
+      return { x, y, r, vx: Math.cos(a) * v, vy: Math.sin(a) * v, rot: Math.random() * 6.28,
+               spin: (Math.random() - 0.5) * 0.02, shape, craters };
+    }
+    for (let i = 0; i < asteroidCount; i++) asteroids.push(makeAsteroid(-999, -999));
+
+    function explodeRocket(now, cx, cy) {
+      dead = true;
+      respawnAt = now + 1400;
+      rocket.style.opacity = '0';
+      rocket.classList.remove('blink');
+      const fire = reduceMotion ? 18 : 60;
+      for (let i = 0; i < fire; i++) {
+        const a = Math.random() * Math.PI * 2;
+        const s = 1 + Math.random() * 7;
+        blasts.push({ x: cx, y: cy, vx: Math.cos(a) * s, vy: Math.sin(a) * s,
+          r: 2 + Math.random() * 4, life: 0, max: 24 + Math.random() * 24, kind: 'fire' });
+      }
+      for (let i = 0; i < (reduceMotion ? 6 : 18); i++) {
+        const a = Math.random() * Math.PI * 2;
+        const s = 2 + Math.random() * 5;
+        blasts.push({ x: cx, y: cy, vx: Math.cos(a) * s, vy: Math.sin(a) * s,
+          r: 1.5 + Math.random() * 2, life: 0, max: 40 + Math.random() * 25,
+          kind: 'debris', col: ['255,255,255', '255,95,196', '79,209,255', '139,92,246'][i % 4] });
+      }
+      for (let i = 0; i < (reduceMotion ? 4 : 12); i++) {
+        const a = Math.random() * Math.PI * 2;
+        const s = 0.4 + Math.random() * 1.8;
+        blasts.push({ x: cx, y: cy, vx: Math.cos(a) * s, vy: Math.sin(a) * s - 0.3,
+          r: 6 + Math.random() * 6, life: 0, max: 45 + Math.random() * 25, kind: 'smoke' });
+      }
+      shockwaves.push({ x: cx, y: cy, life: 0, max: 28 });
+    }
+
+    function drawAsteroid(s) {
+      const n = s.shape.length;
+      fctx.save();
+      fctx.translate(s.x, s.y);
+      fctx.rotate(s.rot);
+      fctx.beginPath();
+      for (let i = 0; i < n; i++) {
+        const a = (i / n) * Math.PI * 2;
+        const rr = s.r * s.shape[i];
+        const px2 = Math.cos(a) * rr, py2 = Math.sin(a) * rr;
+        if (i === 0) fctx.moveTo(px2, py2); else fctx.lineTo(px2, py2);
+      }
+      fctx.closePath();
+      fctx.shadowColor = 'rgba(139,92,246,0.55)';
+      fctx.shadowBlur = 18;
+      const g = fctx.createRadialGradient(-s.r * 0.3, -s.r * 0.35, s.r * 0.1, 0, 0, s.r * 1.1);
+      g.addColorStop(0, '#1b2236');
+      g.addColorStop(1, '#0b0f1c');
+      fctx.fillStyle = g;
+      fctx.fill();
+      fctx.shadowBlur = 0;
+      const edge = fctx.createLinearGradient(-s.r, -s.r, s.r, s.r);
+      edge.addColorStop(0, '#4fd1ff');
+      edge.addColorStop(1, '#8b5cf6');
+      fctx.strokeStyle = edge;
+      fctx.lineWidth = 1.6;
+      fctx.stroke();
+      fctx.restore();
+    }
+
+    function raf() {
+      const dx = mx - px, dy = my - py;
+      const speed = Math.hypot(dx, dy);
+      if (speed > 1.5) {
+        targetAngle = Math.atan2(dy, dx) + Math.PI / 2;
+      }
+      let diff = targetAngle - angle;
+      diff = Math.atan2(Math.sin(diff), Math.cos(diff));
+      angle += diff * 0.22;
+      rocket.style.transform = `translate(${mx - 12}px, ${my}px) rotate(${angle}rad)`;
+
+      if (!dead && !reduceMotion && speed > 1.5) {
+        const hx = Math.sin(angle), hy = -Math.cos(angle);
+        spawn(mx - hx * (ROCKET_LEN + 4), my - hy * (ROCKET_LEN + 4), hx, hy, speed);
+      }
+      px = mx; py = my;
+
+      fctx.clearRect(0, 0, fumeCanvas.width, fumeCanvas.height);
+      for (let i = puffs.length - 1; i >= 0; i--) {
+        const p = puffs[i];
+        p.life++;
+        if (p.life >= p.max) { puffs.splice(i, 1); continue; }
+        p.x += p.vx; p.y += p.vy;
+        p.vx *= 0.96; p.vy *= 0.96;
+        const t = p.life / p.max;
+        const radius = p.r * (1 + t * 2.2);
+        const alpha = (1 - t) * 0.55;
+        const g = Math.round(210 - t * 110);
+        const b = Math.round(90 + t * 90);
+        const rch = Math.round(255 - t * 80);
+        fctx.beginPath();
+        fctx.fillStyle = `rgba(${rch},${g},${b},${alpha})`;
+        fctx.arc(p.x, p.y, radius, 0, Math.PI * 2);
+        fctx.fill();
+      }
+
+      // asteroids: move, hit test against the rocket, draw
+      const now = performance.now();
+      const hx2 = Math.sin(angle), hy2 = -Math.cos(angle);
+      if (dead && now >= respawnAt) {
+        dead = false;
+        invulnUntil = now + 1600;
+        rocket.style.opacity = '';
+        rocket.classList.add('blink');
+        setTimeout(() => rocket.classList.remove('blink'), 1600);
+      }
+      for (const s of asteroids) {
+        s.x += s.vx; s.y += s.vy; s.rot += s.spin;
+        const m = s.r + 20;
+        if (s.x < -m) s.x = window.innerWidth + m; else if (s.x > window.innerWidth + m) s.x = -m;
+        if (s.y < -m) s.y = window.innerHeight + m; else if (s.y > window.innerHeight + m) s.y = -m;
+        if (!dead && seen && now >= invulnUntil) {
+          const hitR = s.r * 0.85 + 6;
+          const bx = mx - hx2 * 15, by = my - hy2 * 15;
+          if (Math.hypot(mx - s.x, my - s.y) < hitR || Math.hypot(bx - s.x, by - s.y) < hitR) {
+            explodeRocket(now, bx, by);
+          }
+        }
+        drawAsteroid(s);
+      }
+
+      // explosion particles and shockwaves
+      fctx.save();
+      for (let i = blasts.length - 1; i >= 0; i--) {
+        const p = blasts[i];
+        p.life++;
+        if (p.life >= p.max) { blasts.splice(i, 1); continue; }
+        p.x += p.vx; p.y += p.vy;
+        p.vx *= 0.93; p.vy *= 0.93;
+        const t = p.life / p.max;
+        fctx.globalCompositeOperation = p.kind === 'fire' ? 'lighter' : 'source-over';
+        fctx.beginPath();
+        if (p.kind === 'smoke') {
+          fctx.fillStyle = `rgba(90,96,115,${(1 - t) * 0.35})`;
+          fctx.arc(p.x, p.y, p.r * (1 + t * 2), 0, Math.PI * 2);
+        } else if (p.kind === 'debris') {
+          fctx.fillStyle = `rgba(${p.col},${1 - t})`;
+          fctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        } else {
+          fctx.fillStyle = `rgba(255,${Math.round(200 - t * 140)},${Math.round(70 - t * 50)},${(1 - t) * 0.9})`;
+          fctx.arc(p.x, p.y, p.r * (1 - t * 0.5), 0, Math.PI * 2);
+        }
+        fctx.fill();
+      }
+      fctx.globalCompositeOperation = 'source-over';
+      for (let i = shockwaves.length - 1; i >= 0; i--) {
+        const s = shockwaves[i];
+        s.life++;
+        if (s.life >= s.max) { shockwaves.splice(i, 1); continue; }
+        const t = s.life / s.max;
+        fctx.strokeStyle = `rgba(255,210,63,${(1 - t) * 0.8})`;
+        fctx.lineWidth = 3 * (1 - t) + 1;
+        fctx.beginPath(); fctx.arc(s.x, s.y, 10 + t * 80, 0, Math.PI * 2); fctx.stroke();
+      }
+      fctx.restore();
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    document.querySelectorAll('a, button, .tilt-card').forEach(el => {
+      el.addEventListener('mouseenter', () => rocket.classList.add('active'));
+      el.addEventListener('mouseleave', () => rocket.classList.remove('active'));
+    });
+  }
+
   /* ---------------- Magnetic buttons ---------------- */
   if (!isTouch && !reduceMotion) {
     document.querySelectorAll('.magnetic').forEach(el => {
