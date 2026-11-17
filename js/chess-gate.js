@@ -1,3 +1,4 @@
+/* Chess piece images: Cburnett set (CC BY-SA 3.0 / GPL), via the Lichess repository. */
 (() => {
   'use strict';
 
@@ -162,12 +163,14 @@
   /* ---------------- Puzzle ---------------- */
   const PUZZLES = [
     {
-      fen: 'kbK5/pp6/1P6/8/8/8/8/R7 w',
+      // Knight and queen sacrifice leading to a smothered mate
+      fen: '5r1k/ppp3pp/7N/8/2Q5/8/8/6K1 w',
       n: 2,
       hints: [
-        'Black\'s king is boxed in by its own pieces. Look for a way to force one of them to move.',
-        'A rook sacrifice on the a-file will pull a defender away from the key square.',
+        'Black\'s king is boxed in by its own rook and pawns. Think about forcing the rook to capture on the back rank.',
+        'Sacrifice the queen with check. Your knight guards the square, so the king cannot take it.',
       ],
+      finalHint: 'The king has no squares left. Your knight can deliver the final check.',
     },
   ];
   const puzzle = PUZZLES[Math.floor(Math.random() * PUZZLES.length)];
@@ -175,8 +178,8 @@
   const attacker = start.turn;
   const defender = other(attacker);
 
-  const GLYPHS = { K: '♔', Q: '♕', R: '♖', B: '♗', N: '♘', P: '♙',
-                   k: '♚', q: '♛', r: '♜', b: '♝', n: '♞', p: '♟' };
+  const NAMES = { K: 'king', Q: 'queen', R: 'rook', B: 'bishop', N: 'knight', P: 'pawn' };
+  const pieceImg = p => 'img/pieces/' + (isWhite(p) ? 'w' : 'b') + p.toUpperCase() + '.svg';
   const sqName = i => 'abcdefgh'[i % 8] + (8 - Math.floor(i / 8));
 
   /* ---------------- UI ---------------- */
@@ -221,10 +224,12 @@
       if (hintMove && hintLevel >= 2 && i === hintMove.from) sq.classList.add('hint');
       if (hintMove && hintLevel >= 3 && i === hintMove.to) sq.classList.add('hint');
       if (board[i]) {
-        const span = document.createElement('span');
-        span.className = 'cg-piece ' + (isWhite(board[i]) ? 'w' : 'b');
-        span.textContent = GLYPHS[board[i]];
-        sq.appendChild(span);
+        const img = document.createElement('img');
+        img.className = 'cg-piece';
+        img.src = pieceImg(board[i]);
+        img.alt = '';
+        img.draggable = false;
+        sq.appendChild(img);
       }
       if (f === 0) { const c = document.createElement('i'); c.className = 'rk'; c.textContent = 8 - r; sq.appendChild(c); }
       if (r === 7) { const c = document.createElement('i'); c.className = 'fl'; c.textContent = 'abcdefgh'[f]; sq.appendChild(c); }
@@ -307,10 +312,10 @@
     const good = currentWinning();
     hintMove = good[0];
     if (hintLevel === 1) {
-      const staged = puzzle.hints[Math.min(movesLeft === puzzle.n ? 0 : 1, puzzle.hints.length - 1)];
-      hintText.textContent = 'Hint 1/3: ' + (movesLeft === 1 ? 'Look for a move that attacks the king with no escape.' : staged);
+      const staged = movesLeft === 1 ? puzzle.finalHint : puzzle.hints[movesLeft === puzzle.n ? 0 : 1];
+      hintText.textContent = 'Hint 1/3: ' + staged;
     } else if (hintLevel === 2) {
-      const piece = GLYPHS[board[hintMove.from]];
+      const piece = NAMES[board[hintMove.from].toUpperCase()];
       hintText.textContent = `Hint 2/3: Move the ${piece} on ${sqName(hintMove.from)}.`;
     } else {
       hintText.textContent = `Hint 3/3: ${sqName(hintMove.from)} to ${sqName(hintMove.to)}.`;
